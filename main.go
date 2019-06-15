@@ -3,6 +3,8 @@ package main
 import {
 	"fmt"
 	"os"
+	"io/ioutil"
+	"encoding/json"
 }
 
 func main() {
@@ -14,4 +16,10 @@ func main() {
 	}
 	fmt.Println("Successfully opened %v", msgFile)
 	defer jsonFile.Close()
+
+	// read opened file as byte array
+	byteArrary, _ := ioutil.ReadAll(jsonFile)
+
+	var messageFile MessageFile
+	json.Unmarshal(byteArray, &messageFile)
 }
