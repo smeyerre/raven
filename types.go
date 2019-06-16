@@ -1,9 +1,5 @@
 package main
 
-import {
-	"encoding/json"
-}
-
 type MessageType int
 type ThreadType int
 
@@ -19,31 +15,35 @@ const (
 )
 
 type MessageFile struct {
-	participants []string `json:"participants"`
-	messages []Message `json:"messages"`
-	title string `json:"title"`
-	isStillParticipant bool `json:"is_still_participant"`
-	threadType ThreadType `json:"thread_type"`
-	threadPath string `json:thread_path"`
+	Participants []Participant `json:"participants"`
+	Messages []Message `json:"messages"`
+	Title string `json:"title"`
+	IsStillParticipant bool `json:"is_still_participant"`
+	ThreadType ThreadType `json:"thread_type"`
+	ThreadPath string `json:thread_path"`
+}
+
+type Participant struct {
+	Name string `json:"name"`
 }
 
 type Message struct {
-	senderName string `json:"sender_name"`
-	timestamp int `json:"timestamp_ms"`
-	content string `json:"content"`
-	photos []Photo `json:"photoes"`
-	reactions []Reaction `json:"reactions"`
-	callDuration int `json:"content"`
-	messageType MessageType `json:"type"`
-	missed bool `json:"missed"`
+	SenderName string `json:"sender_name"`
+	Timestamp int `json:"timestamp_ms"`
+	Content string `json:"content"`
+	Photos []Photo `json:"photoes"`
+	Reactions []Reaction `json:"reactions"`
+	CallDuration int `json:"content"`
+	MessageType MessageType `json:"type"`
+	Missed bool `json:"missed"`
 }
 
 type Photo struct {
-	uri string `json:"uri"`
-	creationTimestamp int `json:"creation_timestamp"`
+	URI string `json:"uri"`
+	CreationTimestamp int `json:"creation_timestamp"`
 }
 
 type Reaction struct {
-	reaction string `json:"reaction"`
-	actor string `json:"actor"`
+	Reaction string `json:"reaction"`
+	Actor string `json:"actor"`
 }
