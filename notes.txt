@@ -1,0 +1,12 @@
+Data format for Flourish
+
+- json format
+- data needed:
+    - User name
+    - messages per unit of time. eg:
+        day 1: 7
+        day 2: 2
+        day 3: 0
+        day 4: 19
+
+

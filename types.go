@@ -1,17 +1,17 @@
 package main
 
-type MessageType int
-type ThreadType int
+type MessageType string
+type ThreadType string
 
 const (
-	GENERIC MessageType = iota
-	SHARE MessageType = iota
-	CALL MessageType = iota
+	GENERIC MessageType = "Generic"
+	SHARE MessageType = "Share"
+	CALL MessageType = "Call"
 )
 
 const (
-	REGULAR ThreadType = iota
-	REGULAR_GROUP ThreadType = iota
+	REGULAR ThreadType = "Regular"
+	REGULAR_GROUP ThreadType = "RegularGroup"
 )
 
 type MessageFile struct {
@@ -31,7 +31,7 @@ type Message struct {
 	SenderName string `json:"sender_name"`
 	Timestamp int `json:"timestamp_ms"`
 	Content string `json:"content"`
-	Photos []Photo `json:"photoes"`
+	Photos []Photo `json:"photos"`
 	Reactions []Reaction `json:"reactions"`
 	CallDuration int `json:"content"`
 	MessageType MessageType `json:"type"`

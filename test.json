@@ -1,0 +1,82 @@
+{
+  "participants": [
+    {
+      "name": "Alex You"
+    },
+    {
+      "name": "Sam Meyer-Reed"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Sam Meyer-Reed",
+      "timestamp_ms": 1538343849522,
+      "content": "Yeah for sure!",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538333785964,
+      "content": "Maybe next time",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538333782838,
+      "content": "Ok that\u00e2\u0080\u0099s fine",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Sam Meyer-Reed",
+      "timestamp_ms": 1538333771946,
+      "content": "Ahh yeah I think I'll still be moving by then...",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538333141768,
+      "content": "The second set of games will start around 1",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Sam Meyer-Reed",
+      "timestamp_ms": 1538333098735,
+      "content": "Oh ok, depends, what time is it? I'm busy for part of the day",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538332964780,
+      "content": "Just checking if you still wanted to meet up for the second set of games. Only a few people replied",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Sam Meyer-Reed",
+      "timestamp_ms": 1538332871188,
+      "content": "Hey what's up? (Sorry I'm moving apartments today so I was cleaning)",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538324905703,
+      "content": "Hey",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Sam Meyer-Reed",
+      "timestamp_ms": 1538175146855,
+      "content": "You can now call each other and see information like Active Status and when you've read messages.",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Alex You",
+      "timestamp_ms": 1538174983108,
+      "content": "https://m.me/join/AbbymrBQhEKi6LY3",
+      "type": "Share"
+    }
+  ],
+  "title": "Alex You",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/AlexYou_C7OgL4rhJw"
+}
