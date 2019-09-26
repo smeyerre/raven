@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -13,9 +13,10 @@ const (
 )
 
 const (
-	HELP string = "--help"
+	HELP          string = "--help"
 	SENT_RECEIVED string = "-s"
-	WORD_INFO string = "-w"
+	WORD_INFO     string = "-w"
+	FLOURISH      string = "--flourish"
 )
 
 func main() {
@@ -33,6 +34,11 @@ func main() {
 	case 3:
 		msgFile = os.Args[1]
 		argument = os.Args[2]
+
+		if os.Args[1] == FLOURISH { // special case when writing flourish file
+			flourish(os.Args[2])
+			os.Exit(0)
+		}
 	default:
 		fmt.Println("Error: Unanticipated number of arguments.")
 		usage()
@@ -105,7 +111,7 @@ func sentReceived(file MessageFile) {
 		}
 	}
 
-	fmt.Println("Total messages:", sent + received)
+	fmt.Println("Total messages:", sent+received)
 	fmt.Println("	sent:", sent)
 	fmt.Println("	receeived:", received)
 }
@@ -135,15 +141,10 @@ func wordInfo(file MessageFile) {
 	sentAvg := sentWords / sentMessages
 	receivedAvg := receivedWords / receivedMessages
 
-	fmt.Println("Total word count:", sentWords + receivedWords)
+	fmt.Println("Total word count:", sentWords+receivedWords)
 	fmt.Println("	sent:", sentWords)
 	fmt.Println("	received:", receivedWords)
 	fmt.Println("\nCombined average words per message:", combinedAvg)
 	fmt.Println("	average words per sent message:", sentAvg)
 	fmt.Println("	average words per received message:", receivedAvg)
 }
-
-
-
-
-

@@ -10,3 +10,18 @@ Data format for Flourish
         day 4: 19
 
 
+date format dd/mm/yy
+
+
+
+count
+
+iterate through days since August 1st 2010:
+    loop:
+        if current message timestamp is less than timestamp of the current day:
+            increment count
+            move to next message
+        else:
+            break out of loop
+
+    add count to csv record
