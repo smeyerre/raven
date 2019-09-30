@@ -88,14 +88,24 @@ func usage() {
 
 	raven input-file [command]
 
+	or
+
+	raven --flourish input-file
+
 
 	command list:
+
 		--help
 			prints this usage information.
+
 		-s
 			returns two integers, the total sent messages, and the total received messages.
+
 		-w
 			prints info related to word counts. I.e. average word count sent and received.
+
+		--flourish
+			parses the input messenger history directory and writes to flourish.csv for uploading to Flourish.studio
 	`
 
 	fmt.Println(usageMessage)

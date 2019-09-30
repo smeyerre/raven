@@ -25,3 +25,16 @@ iterate through days since August 1st 2010:
             break out of loop
 
     add count to csv record
+
+
+====================
+
+input root directory
+
+get array of all conversation directories
+
+write first line of csv file
+
+for each directory:
+    call goroutine function:
+        if its not
