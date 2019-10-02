@@ -10,6 +10,7 @@ import (
 	"sync"
 	"fmt"
 	"path/filepath"
+	"syscall"
 )
 
 const (
@@ -17,6 +18,7 @@ const (
 	START_DAY int64  = 1280721599000
 	END_DAY   int64  = 1569470399000
 	USER      string = "Sam Meyer-Reed"
+	DEFAULT_MAX_FILES uint64 = 1000
 )
 
 func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *sync.WaitGroup) {
@@ -125,6 +127,13 @@ func flourish(rootDir string) error {
 	w.Write(labels)
 
 
+	var rLimit syscall.Rlimit
+	var maxFiles uint64 = DEFAULT_MAX_FILES
+	err = syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
+	if err == nil {
+		maxFiles = rLimit.Cur
+	}
+
 	files, err := ioutil.ReadDir(rootDir)
 	if err != nil {
 		return err
@@ -132,10 +141,12 @@ func flourish(rootDir string) error {
 
 	var lock sync.Mutex
     var wg sync.WaitGroup
-	wg.Add(len(files))
-
+	var semaphore = make(chan int, maxFiles)
 	for _, f := range files {
+		wg.Add(1)
+		semaphore <- 1
 		go parseConversation(rootDir + f.Name(), w, &lock, &wg)
+		<-semaphore
 	}
 
 	wg.Wait()
