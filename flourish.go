@@ -9,6 +9,7 @@ import (
 	"time"
 	"sync"
 	"fmt"
+	"path/filepath"
 )
 
 const (
@@ -16,13 +17,21 @@ const (
 	START_DAY int64  = 1280721599000
 	END_DAY   int64  = 1569470399000
 	USER      string = "Sam Meyer-Reed"
-	MSGFILE_NAME string = "message.json"
 )
 
 func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	var msgFilePath string = convoDir + "/" + MSGFILE_NAME
+	msgFilePaths, err := filepath.Glob(convoDir + "/*.json")
+	if err != nil {
+		fmt.Println("Could not find message file. Path:", convoDir)
+		return
+	} else if len(msgFilePaths) != 1 {
+		fmt.Printf("Expected 1 possible message file, found %v. Path: %v", len(msgFilePaths), convoDir)
+		return
+	}
+
+	msgFilePath := msgFilePaths[0]
 
 	// Reading data from JSON file
 	data, err := ioutil.ReadFile(msgFilePath)

@@ -20,7 +20,7 @@ const (
 )
 
 func main() {
-	var msgFile string
+	var inputFile string
 	var argument string
 
 	switch len(os.Args) {
@@ -29,23 +29,41 @@ func main() {
 		usage()
 		os.Exit(1)
 	case 2:
-		msgFile = os.Args[1]
 		argument = SENT_RECEIVED
+		inputFile = os.Args[1]
 	case 3:
-		msgFile = os.Args[1]
-		argument = os.Args[2]
-
-		if os.Args[1] == FLOURISH { // special case when writing flourish file
-			flourish(os.Args[2])
-			os.Exit(0)
-		}
+		argument = os.Args[1]
+		inputFile = os.Args[2]
 	default:
 		fmt.Println("Error: Unanticipated number of arguments.")
 		usage()
 		os.Exit(1)
 	}
 
-	jsonFile, err := os.Open(msgFile)
+	switch argument {
+	case HELP:
+		usage()
+	case SENT_RECEIVED:
+		sentReceived(messageFileFromInput(inputFile))
+	case WORD_INFO:
+		wordInfo(messageFileFromInput(inputFile))
+	case FLOURISH:
+		err := flourish(inputFile)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+	default:
+		fmt.Println("Error: unknown argument. Exiting.")
+		usage()
+		os.Exit(1)
+	}
+
+	os.Exit(0)
+}
+
+func messageFileFromInput(inputFile string) MessageFile {
+	jsonFile, err := os.Open(inputFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -65,33 +83,15 @@ func main() {
 		fmt.Println(err)
 	}
 
-	switch argument {
-	case HELP:
-		usage()
-	case SENT_RECEIVED:
-		sentReceived(messageFile)
-	case WORD_INFO:
-		fmt.Println(messageFile)
-		wordInfo(messageFile)
-	default:
-		fmt.Println("Error: unknown argument. Exiting.")
-		usage()
-		os.Exit(1)
-	}
-
-	os.Exit(0)
+	return messageFile
 }
 
 func usage() {
 	var usageMessage string = `
 	Usage:
 
-	raven input-file [command]
-
-	or
-
-	raven --flourish input-file
-
+	raven [command] input-file
+	
 
 	command list:
 
@@ -128,13 +128,15 @@ func sentReceived(file MessageFile) {
 
 // NOTE: may be inaccuracies due to content being weird with photos are shared links
 func wordInfo(file MessageFile) {
+	// fmt.Println(file)
+
 	var sentMessages, receivedMessages, sentWords, receivedWords int
 	for _, msg := range file.Messages {
 		if msg.SenderName == USERNAME {
 			if msg.MessageType == GENERIC && len(msg.Photos) == 0 {
 				sentMessages++
-				fmt.Println(msg.Content)
-				fmt.Println(len(strings.Fields(msg.Content)))
+				// fmt.Println(msg.Content)
+				// fmt.Println(len(strings.Fields(msg.Content)))
 				sentWords += len(strings.Fields(msg.Content))
 			}
 		} else {
@@ -144,7 +146,7 @@ func wordInfo(file MessageFile) {
 			}
 		}
 
-		fmt.Println(sentMessages, receivedMessages, sentWords, receivedWords)
+		// fmt.Println(sentMessages, receivedMessages, sentWords, receivedWords)
 	}
 
 	combinedAvg := (sentWords + receivedWords) / (sentMessages + receivedMessages)
