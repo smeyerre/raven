@@ -17,7 +17,6 @@ const (
 	DAY       int64  = 86400000
 	START_DAY int64  = 1280721599000
 	END_DAY   int64  = 1569470399000
-	USER      string = "Sam Meyer-Reed"
 	DEFAULT_MAX_FILES uint64 = 1000
 )
 
@@ -38,7 +37,7 @@ func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *syn
 	// Reading data from JSON file
 	data, err := ioutil.ReadFile(msgFilePath)
 	if err != nil {
-		fmt.Println("Could not read file. Path:", msgFilePath)
+		fmt.Println("Could not read file. Error: " + err.Error() + " Path:", msgFilePath)
 		return
 	}
 	// Unmarshal JSON data
@@ -49,12 +48,17 @@ func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *syn
 		return
 	}
 
+	if len(d.Participants) < 1 {
+		fmt.Println("Could not determine participant. Path:", msgFilePath)
+		return
+	}
 	person := d.Participants[0]
+
 	switch len(d.Participants) {
 	case 1:
 		// do nothing
 	case 2:
-		if person.Name == USER {
+		if person.Name == USERNAME {
 			person = d.Participants[1]
 		}
 	default:
