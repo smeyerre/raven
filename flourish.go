@@ -97,7 +97,7 @@ func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *syn
 	lock.Unlock()
 }
 
-func flourish(rootDir string) error {
+func Flourish(rootDir string) error {
 	// Create a csv file
 	f, err := os.Create("./flourish.csv") // FIXME: filename
 	if err != nil {
@@ -108,6 +108,7 @@ func flourish(rootDir string) error {
 	// Write Unmarshaled json data to CSV file
 	w := csv.NewWriter(f)
 
+	// write first csv record as labels for columns
 	var currentDay int64 = START_DAY
 	var labels []string
 
@@ -129,7 +130,6 @@ func flourish(rootDir string) error {
 	}
 
 	w.Write(labels)
-
 
 	var rLimit syscall.Rlimit
 	var maxFiles uint64 = DEFAULT_MAX_FILES

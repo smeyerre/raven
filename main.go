@@ -48,7 +48,7 @@ func main() {
 	case WORD_INFO:
 		wordInfo(messageFileFromInput(inputFile))
 	case FLOURISH:
-		err := flourish(inputFile)
+		err := Flourish(inputFile)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
