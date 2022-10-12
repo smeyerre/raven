@@ -1,5 +1,11 @@
 {
-    "username": "Sam Meyer-Reed",
-    "convoDir": "/home/sam/Documents/facebook-sammeyerreed-json/messages/inbox",
-    "msgFile": "message.json"
+    "rootDir": "/home/sam/Documents/DanykaFacebookMessages/messages",
+    "infoFile": "autofill_information.json",
+    "convoDirNames": [
+        "inbox",
+        "archived_threads",
+        "filtered_threads"
+    ],
+    "msgFileType": ".json",
+    "outFile": "test_output"
 }
