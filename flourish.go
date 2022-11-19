@@ -27,7 +27,7 @@ func parseConversation(convoDir string, w *csv.Writer, lock *sync.Mutex, wg *syn
 	if err != nil {
 		fmt.Println("Could not find message file. Path:", convoDir)
 		return
-	} else if len(msgFilePaths) != 1 {
+	} else if len(msgFilePaths) != 1 { // TODO: accept multiple message files
 		fmt.Printf("Expected 1 possible message file, found %v. Path: %v", len(msgFilePaths), convoDir)
 		return
 	}

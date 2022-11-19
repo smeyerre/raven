@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	USERNAME string = "Sam Meyer-Reed"
+	USERNAME string = "Danyka KB"
 )
 
 const (
