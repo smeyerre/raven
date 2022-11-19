@@ -1,0 +1,26 @@
+Current Flourish implementation:
+    - pass in "/inbox" directory
+    - write first record of csv
+        - loop through all days and add each day to row
+    
+    - call parseConversation on each conversation directory
+        - find first json file
+        - if 2 participants keep going
+        - for each day:
+            - loop through conversation and tally up messages
+            - append count to that day's column in the row
+
+===================================
+
+Goal Flourish implementation:
+    - pass in "/messages" directory
+    - write first record of csv
+        - loop through all das and add each day to row
+    
+    - call parseSubdirectory on each of the relevant directories
+        - call parseConversation on each conversation directory
+            - find first json file
+            - if 2 participants keep going
+            - for each day:
+                - loop through conversation and tally up messages
+                - append count to that day's column in the row
