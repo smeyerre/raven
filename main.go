@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	USERNAME string = "Danyka KB"
+  CONFIG_FILE string = "config.json"
 )
 
 const (
@@ -22,6 +22,8 @@ const (
 func main() {
 	var inputFile string
 	var argument string
+
+  configFile := getConfig()
 
 	switch len(os.Args) {
 	case 1:
@@ -44,9 +46,9 @@ func main() {
 	case HELP:
 		usage()
 	case SENT_RECEIVED:
-		sentReceived(messageFileFromInput(inputFile))
+		sentReceived(messageFileFromInput(inputFile), configFile.Username)
 	case WORD_INFO:
-		wordInfo(messageFileFromInput(inputFile))
+		wordInfo(messageFileFromInput(inputFile), configFile.Username)
 	case FLOURISH:
 		err := Flourish(inputFile)
 		if err != nil {
@@ -60,6 +62,29 @@ func main() {
 	}
 
 	os.Exit(0)
+}
+
+func getConfig() ConfigFile {
+	jsonFile, err := os.Open(CONFIG_FILE)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	defer jsonFile.Close()
+	byteArr, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	var configFile ConfigFile
+	err = json.Unmarshal(byteArr, &configFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+  return configFile
 }
 
 func messageFileFromInput(inputFile string) MessageFile {
@@ -111,10 +136,10 @@ func usage() {
 	fmt.Println(usageMessage)
 }
 
-func sentReceived(file MessageFile) {
+func sentReceived(file MessageFile, username string) {
 	var sent, received int
 	for _, msg := range file.Messages {
-		if msg.SenderName == USERNAME {
+		if msg.SenderName == username {
 			sent++
 		} else {
 			received++
@@ -127,12 +152,12 @@ func sentReceived(file MessageFile) {
 }
 
 // NOTE: may be inaccuracies due to content being weird with photos are shared links
-func wordInfo(file MessageFile) {
+func wordInfo(file MessageFile, username string) {
 	// fmt.Println(file)
 
 	var sentMessages, receivedMessages, sentWords, receivedWords int
 	for _, msg := range file.Messages {
-		if msg.SenderName == USERNAME {
+		if msg.SenderName == username {
 			if msg.MessageType == GENERIC && len(msg.Photos) == 0 {
 				sentMessages++
 				// fmt.Println(msg.Content)

@@ -14,6 +14,12 @@ const (
 	REGULAR_GROUP ThreadType = "RegularGroup"
 )
 
+type ConfigFile struct {
+	Username            string       `json:"username"`
+	MessageFileType     string       `json:"messageFileType"`
+	ConvoDirectoryNames []string     `json:"convoDirectoryNames"`
+}
+
 type MessageFile struct {
 	Participants       []Participant `json:"participants"`
 	Messages           []Message     `json:"messages"`
