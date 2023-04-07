@@ -50,7 +50,7 @@ func main() {
 	case WORD_INFO:
 		wordInfo(messageFileFromInput(inputFile), configFile.Username)
 	case FLOURISH:
-		err := Flourish(inputFile)
+		err := Flourish(inputFile, configFile)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)

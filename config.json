@@ -2,8 +2,8 @@
     "username": "Danyka KB",
     "messageFileType": ".json",
     "convoDirectoryNames": [
-        "inbox",
-        "archived_threads",
-        "filtered_threads"
+        "inbox/",
+        "archived_threads/",
+        "filtered_threads/"
     ]
 }
