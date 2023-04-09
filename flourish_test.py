@@ -14,7 +14,7 @@ class DirectoryInfo:
         self.zeroParticipantCount = zeroParticipantCount
 
     def __str__(self):
-        return f"name: {self.directoryName}\ntotalCount: {self.totalCount}, individualCount: {self.individualCount}, groupCount: {self.groupCount}, zeroParticipantCount: {self.zeroParticipantCount}"
+        return f"name: {self.directoryName}\ntotalCount: {self.totalCount}, individualCount: {self.individualCount}, groupCount: {self.groupCount}, zeroParticipantCount: {self.zeroParticipantCount}\n\n"
 
 
 def testFlourish(username, convoDir, msgFileType):
