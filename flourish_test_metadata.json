@@ -1,10 +1,11 @@
 {
-    "rootDir": "/home/sam/Documents/DanykaFacebookMessages/messages",
+    "rootDir": "~/Documents/DavidFacebookMessages/messages",
     "infoFile": "autofill_information.json",
     "convoDirNames": [
         "inbox",
         "archived_threads",
-        "filtered_threads"
+        "filtered_threads",
+        "legacy_threads"
     ],
     "msgFileType": ".json",
     "outFile": "test_output"
