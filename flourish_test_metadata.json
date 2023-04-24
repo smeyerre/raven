@@ -1,5 +1,5 @@
 {
-    "rootDir": "~/Documents/DavidFacebookMessages/messages",
+    "rootDir": "/home/sam/Documents/DavidFacebookMessages/messages",
     "infoFile": "autofill_information.json",
     "convoDirNames": [
         "inbox",

@@ -9,6 +9,7 @@ import (
 	"sync"
 	"fmt"
 	"path/filepath"
+  "sort"
 	"syscall"
 )
 
@@ -28,29 +29,19 @@ func parseConversation(config ConfigFile, convoDir string, w *csv.Writer, lock *
 	if err != nil {
 		fmt.Println("Could not find message file. Path:", convoDir)
 		return
-	} else if len(msgFilePaths) != 1 { // TODO: accept multiple message files
-		fmt.Printf("Expected 1 possible message file, found %v. Path: %v", len(msgFilePaths), convoDir)
-		return
 	}
+  sort.Sort(sort.Reverse(sort.StringSlice(msgFilePaths)))
 
-	msgFilePath := msgFilePaths[0]
-
-	// Reading data from JSON file
-	data, err := os.ReadFile(msgFilePath)
-	if err != nil {
-		fmt.Println("Could not read file. Error: " + err.Error() + " Path:", msgFilePath)
-		return
-	}
-	// Unmarshal JSON data
-	var d FlourishMessageFile
-	err = json.Unmarshal([]byte(data), &d)
-	if err != nil {
-		fmt.Println("Could not unmarshal json. Path:", msgFilePath)
-		return
-	}
+  // Get converstation participant name
+  // ================
+  var d FlourishMessageFile
+  d, err = GetMessageFileFromJson(msgFilePaths[0])
+  if err != nil {
+    return 
+  }
 
 	if len(d.Participants) < 1 {
-		fmt.Println("Could not determine participant. Path:", msgFilePath)
+		fmt.Println("Could not determine participant. Path:", msgFilePaths[0])
 		return
 	}
 	person := d.Participants[0]
@@ -66,11 +57,14 @@ func parseConversation(config ConfigFile, convoDir string, w *csv.Writer, lock *
 		// TODO: Handle group chats
 		return
 	}
+  // =================
 
-	var m []FlourishMessage = d.Messages
+  var fileIndex int = 0
+  var messages []FlourishMessage 
+  messages = d.Messages
 
 	var count int = 0
-	var i int = len(m) - 1
+	var messageIndex int = len(messages) - 1
 	var currentDay int64 = START_DAY
 	var record []string
 	record = append(record, person.Name)
@@ -81,9 +75,24 @@ func parseConversation(config ConfigFile, convoDir string, w *csv.Writer, lock *
 		}
 
 		for { // loop through messages
-			if i >= 0 && m[i].Timestamp <= currentDay {
+			if messageIndex < 0 { // finished file
+        if fileIndex >= len(msgFilePaths) - 1 { // finished all files
+          break
+        } else { // move to next file
+          fileIndex++
+
+          msgFile, err := GetMessageFileFromJson(msgFilePaths[fileIndex])
+          if err != nil {
+            return 
+          }
+          messages = msgFile.Messages
+          messageIndex = len(messages) - 1
+        }
+      }
+
+      if messages[messageIndex].Timestamp <= currentDay {
 				count++
-				i--
+				messageIndex--
 			} else {
 				break
 			}
@@ -182,4 +191,22 @@ func Flourish(rootDir string, config ConfigFile) error {
   }
 
 	return nil
+}
+
+func GetMessageFileFromJson(filepath string) (FlourishMessageFile, error) {
+  var d FlourishMessageFile
+
+  // Reading data from JSON file
+  data, err := os.ReadFile(filepath)
+  if err != nil {
+    fmt.Println("Could not read file. Error: " + err.Error() + " Path:", filepath)
+    return d, err
+  }
+  // Unmarshal JSON data
+  err = json.Unmarshal([]byte(data), &d)
+  if err != nil {
+    fmt.Println("Could not unmarshal json. Path:", filepath)
+    return d, err
+  }
+  return d, nil
 }

@@ -91,8 +91,9 @@ def main():
                 print('Error finding username from ' + infoFilePath + '. Exception: ' + str(e) + '. Exiting.')
                 return
     else:
-        print('File ' + infoFilePath + ' could not be found. Exiting.')
-        return
+        # print('File ' + infoFilePath + ' could not be found. Exiting.')
+        # return
+        username = "David Mamujee"
 
     # iterate through all conversations
     for convoDir in convoDirNames:
@@ -100,6 +101,10 @@ def main():
         with open(outFile, 'a') as f:
             try:
                 absoluteConvoDir = os.path.join(rootDir, convoDir)
+                if not os.path.exists(absoluteConvoDir):
+                    print("Directory " + absoluteConvoDir + " does not exist. Skipping.\n")
+                    continue
+
                 directoryInfo = testFlourish(username, absoluteConvoDir, msgFileType)
                 print(str(directoryInfo))
 
