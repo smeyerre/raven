@@ -15,9 +15,6 @@ import (
 
 const (
 	DAY       int64  = 86400000
-	START_DAY int64  = 1280721599000
-	END_DAY   int64  = 1569470399000
-	DEFAULT_MAX_FILES uint64 = 1000
 )
 
 func parseConversation(config ConfigFile, convoDir string, w *csv.Writer, lock *sync.Mutex, wg *sync.WaitGroup) {
@@ -65,12 +62,12 @@ func parseConversation(config ConfigFile, convoDir string, w *csv.Writer, lock *
 
 	var count int = 0
 	var messageIndex int = len(messages) - 1
-	var currentDay int64 = START_DAY
+	var currentDay int64 = config.StartDate
 	var record []string
 	record = append(record, person.Name)
 
 	for { // loop through days
-		if currentDay > END_DAY {
+		if currentDay > config.EndDate {
 			break
 		}
 
@@ -111,7 +108,7 @@ func parseSubdirectory(config ConfigFile, subDir string, w *csv.Writer) error {
   fmt.Println("Parsing subdirectory:", subDir)
 
 	var rLimit syscall.Rlimit
-	var maxFiles uint64 = DEFAULT_MAX_FILES
+	var maxFiles uint64 = config.DefaultMaxFiles
   // get system limit for open files
   err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)
 	if err == nil {
@@ -153,7 +150,7 @@ func Flourish(rootDir string, config ConfigFile) error {
 	w := csv.NewWriter(f)
 
 	// write first csv record as labels for columns
-	var currentDay int64 = START_DAY
+	var currentDay int64 = config.StartDate
 	var labels []string
 
 	loc, err := time.LoadLocation("EST")
@@ -164,7 +161,7 @@ func Flourish(rootDir string, config ConfigFile) error {
 	labels = append(labels, "Name")
 
 	for { // loop through days
-		if currentDay > END_DAY {
+		if currentDay > config.EndDate {
 			break
 		}
 		

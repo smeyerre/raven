@@ -6,5 +6,8 @@
         "archived_threads/",
         "filtered_threads/",
         "legacy_threads/"
-    ]
+    ],
+    "startDate": 1270881704000,
+    "endDate": 1682455304000,
+    "defaultMaxFiles": 1000
 }

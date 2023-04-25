@@ -18,6 +18,9 @@ type ConfigFile struct {
 	Username            string       `json:"username"`
 	MessageFileType     string       `json:"messageFileType"`
 	ConvoDirectoryNames []string     `json:"convoDirectoryNames"`
+  StartDate           int64        `json:"startDate"`
+  EndDate             int64        `json:"endDate"`
+  DefaultMaxFiles     uint64       `json:"defaultMaxFiles"`
 }
 
 type MessageFile struct {
